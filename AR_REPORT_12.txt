@@ -1,0 +1,64 @@
+Creating a report manually :
+
+DATA MODEL: 
+
+--->start by clicking the Reports Builder  icon by searching in programs. The screen gets displayed. Select the option to build a new report manually. Click OK.
+--->Now create a new report by selecting File > New > Report  from the menu. 
+    We can use either of the options to display data model.
+--->Add a query to the data model by selecting Insert > Query  from the menu. This action invokes the Data Wizard. 
+--->For the data source, accept SQL Query  as the data source type by clicking Next.
+ 
+--->SQL Query:
+    select AR_num, AR_date, AR_status, v_name, v_site, AR_curr, AR_amt, AR_typ, buyr_name, AR_line_num, item_num, item_desc from <TABLE>
+								WHERE AR_OPERATING_UNIT = :AR_ou_name AND STATUS = 'Closed' OR STATUS = 'Open';
+
+--->On the data source definition page, click Connect  to connect to the database. 
+
+In the Connect dialog box, enter appsread for the User Name, appsread for the Password, and the name of your database for the Database field.
+
+--->Fetch the appropriate table from the database.
+
+PAPER LAYOUT:
+
+
+-->Once your data model is complete, you need to create a layout for the data objects to display in the report output.
+-->Design the report based on the user requirement and save the report(XX12_AR_REPORT.rdf).
+
+WINSCP:
+
+-->go to winscp, copy the file from the local machine to server and save the report.
+
+
+ORACLE APPLICATION:
+
+-->Create Executable: Link it to Report file(.rdf) created
+Navigation: Login into Oracle Applications –> Go to Application Developer Responsibility –> Concurrent –> Executable.
+	
+	Executable	   :XX12_AR
+	Short name	   :XX12_AR
+	Application	   :Application Developer
+	Execution method   :oracle reports
+	Execution file name:XX12_AR_report
+
+-->After Developing a report to register as a concurrent program.
+Navigation: Application Developer –> Concurrent –> Program
+	Program		   :XX12_AR_prgm
+	short name	   :XX12_AR_prgm
+	Application	   :Application Developer
+Click on Parameters then enter the following details:
+	Program		   :XX12_AR_prgm
+	Application	   :Application Developer
+	Sequence No 	   :1
+	Ppoameter	   :AR_ou_name
+	valueset	   :AR_ou_valueset
+	Default type	   :constant
+	token	           :AR_ou_name
+-->Create Concurrent Program: Link to it executable defined in previous step
+-->Enter Parameters and link Value Sets
+-->Assign the registered Concurrent Program to a request group
+Navigation: Switch to “System Administrator” Responsibility –> Security –> Responsibility –> Request
+Action: Enter Your User Readable Name of your concurrent program
+Action: Save
+Now Your Concurrent Program is ready to use from the responsibilities having” Account Receivables Reports” as Request Group.
+
+
